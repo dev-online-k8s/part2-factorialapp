@@ -21,7 +21,15 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
         - name: factorial
-          image: jheo/factorial-app:0.0.3
+          image: jheo/factorial-app:0.0.5
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1000m"
+            limits:
+              memory: "1Gi"
+              cpu: "1500m"
           lifecycle:
             preStop:
               exec:
@@ -30,21 +38,21 @@ spec:
             httpGet:
               path: /probe/startup
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 45
             periodSeconds: 1
             failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /probe/ready
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 45
             periodSeconds: 1
-            successThreshold: 2
-            failureThreshold: 3
+            successThreshold: 1
+            failureThreshold: 2
           livenessProbe:
             httpGet:
               path: /probe/live
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 45
             periodSeconds: 1
-            failureThreshold: 7
+            failureThreshold: 10

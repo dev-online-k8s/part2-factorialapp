@@ -31,7 +31,7 @@ jib {
 	}
 	to {
 		image = "jheo/factorial-app"
-		tags = ['latest', '0.0.3']
+		tags = ['latest', '0.0.5']
 	}
 	container {
 		creationTime ="USE_CURRENT_TIMESTAMP"

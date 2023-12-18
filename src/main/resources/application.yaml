@@ -1,5 +1,8 @@
 server:
   shutdown: graceful
+  tomcat:
+    threads:
+      max: 10
 
 spring:
   lifecycle:
