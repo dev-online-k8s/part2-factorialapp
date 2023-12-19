@@ -29,20 +29,4 @@ public class FactorialService {
         return new BigDecimal(n).multiply(calculate(n-1));
     }
 
-    @Scheduled(fixedDelay = 1000L)
-    public void calculateTask() {
-        if (redisTemplate.hasKey("factorial:task-queue")) {
-            String task = redisTemplate.opsForSet().pop("factorial:task-queue");
-            if (task != null) {
-                BigDecimal result = calculate(Integer.parseInt(task));
-                redisTemplate.opsForHash()
-                        .put(
-                                "factorial:result-set",
-                                task,
-                                result.toPlainString()
-                        );
-            }
-
-        }
-    }
 }
