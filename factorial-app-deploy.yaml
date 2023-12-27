@@ -19,10 +19,27 @@ spec:
         app: factorial-app
     spec:
       terminationGracePeriodSeconds: 60
+      volumes:
+        - name: log-volume
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: fluentbit-config
       containers:
+        - name: fluent-bit
+          image: fluent/fluent-bit:2.2.0
+          volumeMounts:
+            - name: log-volume
+              mountPath: /var/log/app
+            - name : config-volume
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
         - name: factorial
-          image: jheo/factorial-app:0.0.7
+          image: jheo/factorial-app:0.0.8
           imagePullPolicy: Always
+          volumeMounts:
+            - name: log-volume
+              mountPath: /var/log/app
           resources:
             requests:
               memory: "512Mi"
